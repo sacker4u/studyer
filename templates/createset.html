@@ -3,7 +3,7 @@
 {% block javascript %}
     <script>
     var i = 0; 
-    console.log("hi")
+    addnew();
 
     
 
@@ -15,9 +15,12 @@
     function addnew() {
         var list = document.getElementById("qlist");
         var toAdd = document.createElement("li");
-
+        
+        toAdd.style.borderStyle="solid";
         toAdd.style.borderRadius = "25px";
-        toAdd.style.background = "#e7fbff"
+        toAdd.style.borderColor = "#9897A9";
+        toAdd.style.borderWidth="1px";
+        toAdd.style.background="#f8fcfc";
         toAdd.style.padding = "20px";
         toAdd.style.margin = "20px";
         toAdd.style.height="100px";
@@ -25,15 +28,15 @@
         toAdd.style.display="flex";
         toAdd.style.justifyContent="center";
         toAdd.innerHTML = `<p>${++i}</p>
-        <input type="text" name="q${i}" id="q${i}" value="" style="border:none;margin:10px;width:280px;border-radius:10px;"></input>
-        <input type="text" name="a${i}" id="a${i}" value="" style="border:none;margin:10px;width:280px;border-radius:10px;"></input>`
+        <input type="text" name="q${i}" id="q${i}" placeholder="question"></input>
+        <input type="text" name="a${i}" id="a${i}" placeholder="answer"></input>`
         list.appendChild(toAdd);
     }
     </script>
 {% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='createset.css') }}">
     <title>Create New Set - studyer</title>
 {% endblock %}
 
@@ -47,10 +50,14 @@
 
 {% block body %}
     {% if current_user.is_authenticated %}
-        <form id="createset">
-            <button onclick="addnew();" id="addbutton" class="btn btn-primary rounded-circle" type="button">+</button>
-            <ul id="qlist">
-            </ul>
+        <form id="createset" action="#" method="post">
+            <button onclick="addnew();" id="addbutton" class="btn btn-primary rounded-circle" type="button" style="width:50px;height:50px;">+</button>
+            <button id="submit" type="submit" class="btn btn-primary" style="height:50px">Create Set</button>
+            <input type="text" name="title" id="title" placeholder="title"></input>
+                <div id="containerqlist">
+                    <ul id="qlist">
+                </ul>
+            </div>
         </form>
     {% else %}
         <h1><a href="/">You are not logged in. Click here to go back to home.</a></h1>

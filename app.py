@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
 import json
  
 app = Flask(__name__)
@@ -12,36 +12,19 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-class set():
-    def __init__(self, qs: list, ans: list, needsimp: list):
-        self.questions = qs
-        self.answers= ans
-        self.needsimprovement = needsimp
-
-class sets(): # SET NAMES CANNOT HAVE ANY SPACES, MAKE SURE TO REMOVE ALL SPACES BEFORE CREATING NEW SET
-    def loadFromJSON(username: str):
-        try:
-            return json.loads(Users.query.filter_by(
-                username=username).sets)
-        except:
-            return "error"
-
-    def write(sets: dict, username: str):
-        try:
-            Users.query.filter_by(
-                username=username).sets = json.loads(sets)
-            db.session.commit()
-            return "success"
-        except:
-            return "error"
-
 class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
-    sets = db.Column(db.Text(), default='{}')
+    sets = db.Column(db.Text(), default='[]')
  
- 
+class Sets(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250))
+    belongsTo = db.Column(db.Integer)
+    set = db.Column(db.Text(), default={})
+    public = db.Column(db.Boolean(), default=True)
+
 db.init_app(app)
  
  
@@ -100,9 +83,33 @@ def error():
         msg = "Sorry, there was an error. Please check that your password and/or username is correct."
     render_template('error.html', msg=msg)
     
-@app.route("/new")
-def newset():    
-    return render_template("createset.html")
+@app.route("/new", methods=["GET", "POST"])
+def newset():
+    if request.method =="GET":
+        return render_template("createset.html")
+    elif request.method == "POST":
+        i = 0
+        qna = []
+        
+
+        while True:
+            i = i + 1;
+            if request.form.get(f"q{i}") == None:
+                break;
+            qna.append([request.form.get(f"q{i}"), request.form.get(f"a{i}")])
+
+        newset = Sets(name=request.form.get("title"), belongsTo=current_user.id, set=json.dumps(qna), public=True)
+        db.session.add(newset)
+        db.session.commit()
+
+        userSets = json.loads(current_user.sets)
+        userSets.append(newset.id)
+        current_user.sets = json.dumps(userSets)
+
+        db.session.commit()
+
+        return json.dumps(userSets)
+        
  
 if __name__ == "__main__":
     app.run()
