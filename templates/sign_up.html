@@ -2,6 +2,7 @@
 
 {% block head %}
   <title>Register - studyer</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
 {% endblock %}
 
 {% block navbar %}
@@ -9,45 +10,34 @@
 {% endblock %}
 
 {% block body %}
-  <h1>Create an account</h1>
-  <form action="#" method="post">
-    <label for="username">Username:</label>
-    <input type="text" name="username" />
-    <label for="password">Password:</label>
-    <input type="password" name="password" />
-    <button type="submit">Submit</button>
-  </form>
+  <div class="form">
+    <p>Register</p>
+    <form action="#" method="post">
+      <input type="text" name="username" placeholder="username">
+      <input type="password" name="password" placeholder="password">
+      <button type="submit" class="btn btn-primary">Register</button>
+      <p class="redirmsg">Already have an account? <a href="/login">Login</a></p>
+    </form>
+  </div>
+
 {% endblock %}
 
 <!----
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-    <style>
-      h1 {
-        color: green;
-      }
-    </style>
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Create account</a></li>
-      </ul>
-    </nav>
-    <h1>Create an account</h1>
-    <form action="#" method="post">
-      <label for="username">Username:</label>
-      <input type="text" name="username" />
-      <label for="password">Password:</label>
-      <input type="password" name="password" />
-      <button type="submit">Submit</button>
-    </form>
-  </body>
-</html>
+
+
+
+<div style="border-radius:10px;background-color:aliceblue;width:600px;height:400px;display: flex;align-items: center;justify-content: center;">
+  <h1 style="display:block">Create an account</h1>
+  <form action="#" method="post">
+      <div style = "display:block;">
+        <label for="username">Username:</label>
+        <input type="text" name="username"/>
+      </div style = "display:block;">
+        <label for="password">Password:</label>
+        <input type="password" name="password" />
+      </div>
+      <button type="submit" class="btn btn-primary" style="display:block">Submit</button>
+    </div>
+  </form>
+</div>
 >

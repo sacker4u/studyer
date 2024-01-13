@@ -2,48 +2,38 @@
 
 {% block javascript %}
     <script>
-    var i = 0;
+    var i = 0; 
+    console.log("hi")
+
+    
 
     // RESSOLVE PROBLEM OF CREATING NEW SET LATER, WHEN CLICKING SUBMIT, ALSO WIPE DATA
     // LOAD THROUGH ARRAY HERE, AT START OF PAGE
 
     // when come back: do so it saves to array every time addnew is called, then loads at start of page
-    addnew("", ""); // at start of site
 
-    function addnew(q, a) {
-        if (!localStorage["maxi"]) {
-            localStorage["maxi"] = "1";
-            maxi = 1;
-            localStorage["qs"] = [];
-        } else {
-            document.getElementsByClassName('')
-            localStorage["maxi"]++;
-            localStorage
-            
-        }
-
-
+    function addnew() {
         var list = document.getElementById("qlist");
-        i++;
-        list.innerHTML += `
-        <li style="border-radius: 25px;
-                background: #e7fbff;
-                padding: 20px;
-                margin: 20px;
-                height: 100px;
-                width: 600px;
-                display: flex;
-                justify-content: center;" >
-                    <p>${i}</p>
-                    <input type="text" name="q${i}" id="q${i}" value=${q} style="border:none;margin:10px;width:280px;border-radius:10px;"></input>
-                    <input type="text" name="a${i}" id="a${i}" value=${a} style="border:none;margin:10px;width:280px;border-radius:10px;"></input>
-        </li>
-        `
+        var toAdd = document.createElement("li");
+
+        toAdd.style.borderRadius = "25px";
+        toAdd.style.background = "#e7fbff"
+        toAdd.style.padding = "20px";
+        toAdd.style.margin = "20px";
+        toAdd.style.height="100px";
+        toAdd.style.width="600px";
+        toAdd.style.display="flex";
+        toAdd.style.justifyContent="center";
+        toAdd.innerHTML = `<p>${++i}</p>
+        <input type="text" name="q${i}" id="q${i}" value="" style="border:none;margin:10px;width:280px;border-radius:10px;"></input>
+        <input type="text" name="a${i}" id="a${i}" value="" style="border:none;margin:10px;width:280px;border-radius:10px;"></input>`
+        list.appendChild(toAdd);
     }
     </script>
 {% endblock %}
 
 {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"><head>
     <title>Create New Set - studyer</title>
 {% endblock %}
 
@@ -58,7 +48,7 @@
 {% block body %}
     {% if current_user.is_authenticated %}
         <form id="createset">
-            <button onclick="addnew();" id="addbutton" class="btn btn-primary" type="button">+ Add Question</button>
+            <button onclick="addnew();" id="addbutton" class="btn btn-primary rounded-circle" type="button">+</button>
             <ul id="qlist">
             </ul>
         </form>
