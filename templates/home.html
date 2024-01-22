@@ -17,10 +17,9 @@
 
 {% block body %}
     {% if current_user.is_authenticated %}
-        <h1>You are logged in</h1>
-        <ul class="list-group">
+        <ul class="list-group" style="width:300px;">
             {% for set in json.loads(current_user.sets) %}
-            <a href="/{{current_user.id}}/sets/{{set}}" class="list-group-item list-group-item-action">{{set}}</a>
+            <a href="/sets/{{set}}" class="list-group-item list-group-item-action">{{Sets.query.get(set).name}}</a>
             {% endfor %}
           </ul>
         {% else %}

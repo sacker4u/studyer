@@ -73,7 +73,10 @@ def logout():
  
 @app.route("/")
 def home():
-    return render_template("home.html", json=json)
+    if current_user.is_authenticated:
+        return render_template("home.html", json=json, Sets=Sets)
+    else:
+        return redirect(url_for("login"));
 
 @app.route("/error/<int:id>")
 def error():
@@ -85,31 +88,45 @@ def error():
     
 @app.route("/new", methods=["GET", "POST"])
 def newset():
-    if request.method =="GET":
-        return render_template("createset.html")
-    elif request.method == "POST":
-        i = 0
-        qna = []
-        
+    if current_user.is_authenticated:
+        if request.method =="GET":
+            return render_template("createset.html")
+        elif request.method == "POST":
+            i = 0
+            qna = []
+            
 
-        while True:
-            i = i + 1;
-            if request.form.get(f"q{i}") == None:
-                break;
-            qna.append([request.form.get(f"q{i}"), request.form.get(f"a{i}")])
+            while True:
+                i = i + 1;
+                if request.form.get(f"q{i}") == None:
+                    break;
+                qna.append([request.form.get(f"q{i}"), request.form.get(f"a{i}"), 0, 0]) # last 2: number of times owner got question wrong and number of times question was answered
 
-        newset = Sets(name=request.form.get("title"), belongsTo=current_user.id, set=json.dumps(qna), public=True)
-        db.session.add(newset)
-        db.session.commit()
+            newset = Sets(name=request.form.get("title"), belongsTo=current_user.id, set=json.dumps(qna), public=True)
+            db.session.add(newset)
+            db.session.commit()
 
-        userSets = json.loads(current_user.sets)
-        userSets.append(newset.id)
-        current_user.sets = json.dumps(userSets)
+            userSets = json.loads(current_user.sets)
+            userSets.append(newset.id)
+            current_user.sets = json.dumps(userSets)
 
-        db.session.commit()
+            db.session.commit()
 
-        return json.dumps(userSets)
-        
- 
+            return redirect(url_for("set", id=newset.id))
+    else: 
+        return redirect(url_for("login"))
+
+@app.route("/sets/<int:id>")
+def set(id):
+    if current_user.is_authenticated:
+        try:
+            set = Sets.query.get(id)
+            return render_template("set.html", set=set)
+        except:
+            return redirect(url_for("error", msg="Sorry, there was an error. This set cannot be found."))
+    else:
+        return redirect(url_for("login"))
+    
+
 if __name__ == "__main__":
     app.run()

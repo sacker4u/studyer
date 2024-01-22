@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>{{set.name}} - studyer</title>
+{% endblock %}
+
+{% block navbar %}
+    {% if current_user.is_authenticated %}
+        <li><a href="/logout">logout</a></li>
+    {% else %}
+        <li><a href="/login">login</a></li>
+        <li><a href="/register">register</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+{% endblock %}
