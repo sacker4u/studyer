@@ -3,7 +3,8 @@ from flask import Flask, render_template, request, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
 import json
- 
+import random
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db.sqlite"
 app.config["SECRET_KEY"] = "abc"
@@ -24,7 +25,6 @@ class Sets(db.Model):
     belongsTo = db.Column(db.Integer)
     set = db.Column(db.Text(), default={})
     public = db.Column(db.Boolean(), default=True)
-    ownerOn = db.Column(db.Integer(), default=0) # zero indexed
 
 db.init_app(app)
  
@@ -116,6 +116,14 @@ def newset():
     else: 
         return redirect(url_for("login"))
 
+def getQuestionToStudy(set:Sets): # WORK ON ALGORITHM LATER TO PRIORITZE 0 OVER 1 AND TO INCLUDE 2 IF NO OTHER
+    while True:
+        question = random.choice(json.loads(set.set))
+        if question[2] == 0 or question[2] == 1: 
+            return question;
+    
+
+
 @app.route("/sets/<int:id>")
 def set(id):
     if not current_user.is_authenticated:
@@ -138,9 +146,8 @@ def write(id):
         set = Sets.query.get(id)
         
         if request.method == "GET":
-            ownerCurrentlyOn = set.ownerOn
-            setLen = len(json.loads(set.set))
-
+            q = getQuestionToStudy(set)
+            return render_template("write.html", question=q, set=set);
         elif request.method == "POST":
             pass
     except:

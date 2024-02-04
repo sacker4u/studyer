@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Write - studyer</title>
+{% endblock %}
+
+{% block navbar %} 
+    {% if current_user.is_authenticated %}
+        <li><a href="/">{{current_user.username}}</a></li>
+        <li><a href="/logout">logout</a></li>
+        <li><a href="/new">new</a></li>
+    {% else %}
+        <li><a href="/login">login</a></li>
+        <li><a href="/register">register</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div style="text-align:center;margin:auto;width:75%;border:none;border-radius:25px;padding:10px;background-color:#f8fcfc;">
+        <h1>{{set.name}}</h1>
+        <h2>{{question[0]}}</h2>
+        <input id="answer" style=
+        "border:none;
+        margin:10px;
+        width:280px;
+        border-radius:10px;
+        background: #f2f2f2;
+        padding: 15px;" 
+        type="text" placeholder="Enter your answer here"></input>
+        <button class="btn btn-primary" style="padding:15px" onclick="checkAnswer()">Check Answer</button>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    function checkAnswer() {
+        console.log("{{question[1]}}")
+        if ("{{question[1]}}" === document.getElementById("answer").value) {
+            console.log("hi")
+        }
+    }
+</script>
+{% endblock %}
