@@ -14,4 +14,17 @@
 {% endblock %}
 
 {% block body %}
+    <h1>{{set.name}}</h1>
+    <a href="/sets/{{set.id}}/write">
+        <button type="button" class="btn btn-primary btn-lg">🖊️ Write</button>
+    </a>
+    <a href="/sets/{{set.id}}/mcq">
+        <button type="button" class="btn btn-primary btn-lg">🖱️ Multiple Choice Practice</button>
+    </a>
+    <a href="/sets/{{set.id}}/test">
+        <button type="button" class="btn btn-primary btn-lg">✅ Test</button>
+    </a>
+    <a href="/sets/{{set.id}}/edit">
+        <button type="button" class="btn btn-primary btn-lg">✏️ Edit</button>
+    </a>
 {% endblock %}

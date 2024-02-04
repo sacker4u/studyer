@@ -24,6 +24,7 @@ class Sets(db.Model):
     belongsTo = db.Column(db.Integer)
     set = db.Column(db.Text(), default={})
     public = db.Column(db.Boolean(), default=True)
+    ownerOn = db.Column(db.Integer(), default=0) # zero indexed
 
 db.init_app(app)
  
@@ -98,10 +99,9 @@ def newset():
 
             while True:
                 i = i + 1;
-                if request.form.get(f"q{i}") == None:
+                if request.form.get(f"q{i}") == None or request.form.get(f"a{i}") == None:
                     break;
-                qna.append([request.form.get(f"q{i}"), request.form.get(f"a{i}"), 0, 0]) # last 2: number of times owner got question wrong and number of times question was answered
-
+                qna.append([request.form.get(f"q{i}"), request.form.get(f"a{i}"), 0]) # last #: 0: not learned/wrong, 1: learning, 2: learned
             newset = Sets(name=request.form.get("title"), belongsTo=current_user.id, set=json.dumps(qna), public=True)
             db.session.add(newset)
             db.session.commit()
@@ -118,15 +118,34 @@ def newset():
 
 @app.route("/sets/<int:id>")
 def set(id):
-    if current_user.is_authenticated:
-        try:
-            set = Sets.query.get(id)
-            return render_template("set.html", set=set)
-        except:
-            return redirect(url_for("error", msg="Sorry, there was an error. This set cannot be found."))
-    else:
+    if not current_user.is_authenticated:
         return redirect(url_for("login"))
+
+    try:
+        set = Sets.query.get(id)
+        return render_template("set.html", set=set)
+    except:
+        return redirect(url_for("error", msg="Sorry, there was an error. This set cannot be found."))
+
+@app.route("/sets/<int:id>/write")
+def write(id):
+
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+
     
+    try:
+        set = Sets.query.get(id)
+        
+        if request.method == "GET":
+            ownerCurrentlyOn = set.ownerOn
+            setLen = len(json.loads(set.set))
+
+        elif request.method == "POST":
+            pass
+    except:
+        return redirect(url_for("error", msg="Sorry, there was an error in retrieving the set. Check that this set actually exists and there is content inside of it."))
+       
 
 if __name__ == "__main__":
     app.run()

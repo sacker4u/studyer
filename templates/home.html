@@ -18,8 +18,8 @@
 {% block body %}
     {% if current_user.is_authenticated %}
         <ul class="list-group" style="width:300px;">
-            {% for set in json.loads(current_user.sets) %}
-            <a href="/sets/{{set}}" class="list-group-item list-group-item-action">{{Sets.query.get(set).name}}</a>
+            {% for setId in json.loads(current_user.sets) %}
+            <a href="/sets/{{setId}}" class="list-group-item list-group-item-action">{{Sets.query.get(setId).name}}</a>
             {% endfor %}
           </ul>
         {% else %}
