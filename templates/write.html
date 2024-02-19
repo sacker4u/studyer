@@ -16,28 +16,78 @@
 {% endblock %}
 
 {% block body %}
-    <div style="text-align:center;margin:auto;width:75%;border:none;border-radius:25px;padding:10px;background-color:#f8fcfc;">
-        <h1>{{set.name}}</h1>
-        <h2>{{question[0]}}</h2>
-        <input id="answer" style=
-        "border:none;
-        margin:10px;
-        width:280px;
-        border-radius:10px;
-        background: #f2f2f2;
-        padding: 15px;" 
-        type="text" placeholder="Enter your answer here"></input>
-        <button class="btn btn-primary" style="padding:15px" onclick="checkAnswer()">Check Answer</button>
+    <div id="qblock" style="text-align:center;height:300px;margin:auto;width:75%;border:none;border-radius:25px;padding:10px;background-color:#f8fcfc;">
+        <h2 id="question">{{question[0]}}</h2>
+        <form id="qform" action="#" method="post">
+            <input id="answer" style=
+            "border:none;
+            margin:10px;
+            width:90%;
+            border-radius:10px;
+            background: #f2f2f2;
+            padding: 15px;
+            " 
+            type="text" placeholder="Enter your answer here and press enter"></input>
+            <button id="subbutton" type="button" class="btn btn-primary" style="padding:15px" onclick="checkAnswer()">Check Answer</button>
+        </form>
     </div>
 {% endblock %}
 
 {% block javascript %}
 <script>
-    function checkAnswer() {
-        console.log("{{question[1]}}")
-        if ("{{question[1]}}" === document.getElementById("answer").value) {
-            console.log("hi")
+    input = document.getElementById("answer").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault()
+            checkAnswer();
         }
+    })
+
+    function checkAnswer() {
+
+        document.getElementById("subbutton").innerHTML = "Next"
+        document.getElementById("answer").readOnly = true;
+    
+        var button = document.createElement("BUTTON")
+        button.id="override"
+        button.style.padding="15px"
+        button.className="btn btn-primary"
+        document.getElementById("qblock").appendChild(button)
+        console.log("clicked")
+
+        if ("{{question[1]}}" === document.getElementById("answer").value) {
+            document.getElementById("qblock").style.backgroundColor = "#c4e0b8"
+            document.getElementById("subbutton").onclick = function() {submitAndEnd(true)}
+            document.getElementById("override").innerHTML = "I was incorrect"
+           document.getElementById("override").onclick = function() {submitAndEnd(false)}
+        } else {
+            document.getElementById("qblock").style.backgroundColor = "#fccfcf"
+            document.getElementById("subbutton").onclick = function() {submitAndEnd(false)}
+            document.getElementById("override").innerHTML = "I was correct"
+            document.getElementById("override").onclick = function() {submitAndEnd(true)}
+        }
+
+        input = document.getElementById("answer").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault()
+                if ("{{question[1]}}" == document.getElementById("answer").value) {
+                    submitAndEnd(true);
+                } else { 
+                    submitAndEnd(false);
+                }
+            }
+        })
+
+        document.getElementById("question").innerHTML = "{{question[1]}}";
+    }
+
+    function submitAndEnd(isCorrect) {
+        console.log("submitted")
+        if (isCorrect) {
+            document.getElementById("answer").value = "{{set.id}}" + "/" + "{{question[0]}}" + "/" + "t"
+        } else {
+            document.getElementById("answer").value = "{{set.id}}" + "/" + "{{question[0]}}" + "/" + "f"
+        }
+        document.getElementById("qform").submit();
     }
 </script>
 {% endblock %}

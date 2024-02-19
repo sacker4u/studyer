@@ -80,11 +80,13 @@ def home():
         return redirect(url_for("login"));
 
 @app.route("/error/<int:id>")
-def error():
+def error(id):
     if id == 1:
         msg = "Sorry, there was an error. Please check that this account doesn't already exist."
     elif id == 2:
         msg = "Sorry, there was an error. Please check that your password and/or username is correct."
+    elif id == 3:
+        msg = "Sorry, there was an error. Please check that this set exists and you have access to it."
     render_template('error.html', msg=msg)
     
 @app.route("/new", methods=["GET", "POST"])
@@ -135,7 +137,7 @@ def set(id):
     except:
         return redirect(url_for("error", msg="Sorry, there was an error. This set cannot be found."))
 
-@app.route("/sets/<int:id>/write")
+@app.route("/sets/<int:id>/write", methods=["GET", "POST"])
 def write(id):
 
     if not current_user.is_authenticated:
@@ -146,12 +148,11 @@ def write(id):
         set = Sets.query.get(id)
         
         if request.method == "GET":
-            q = getQuestionToStudy(set)
-            return render_template("write.html", question=q, set=set);
+            return render_template("write.html", question=getQuestionToStudy(set), set=set);
         elif request.method == "POST":
-            pass
+            return render_template("write.html", question=getQuestionToStudy(set), set=set);
     except:
-        return redirect(url_for("error", msg="Sorry, there was an error in retrieving the set. Check that this set actually exists and there is content inside of it."))
+        return 'ERR'
        
 
 if __name__ == "__main__":
