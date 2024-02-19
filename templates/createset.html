@@ -16,7 +16,9 @@
         var list = document.getElementById("qlist");
         var toAdd = document.createElement("li");
         
-        toAdd.style.borderStyle="solid";
+        
+        toAdd.className = "qaentry"
+        /*toAdd.style.borderStyle="solid";
         toAdd.style.borderRadius = "25px";
         toAdd.style.borderColor = "#9897A9";
         toAdd.style.borderWidth="1px";
@@ -26,7 +28,7 @@
         toAdd.style.height="100px";
         toAdd.style.width="600px";
         toAdd.style.display="flex";
-        toAdd.style.justifyContent="center";
+        toAdd.style.justifyContent="center";*/
         toAdd.innerHTML = `<p>${++i}</p>
         <input type="text" name="q${i}" id="q${i}" placeholder="question"></input>
         <input type="text" name="a${i}" id="a${i}" placeholder="answer"></input>`

@@ -2,6 +2,7 @@
 
 {% block head %}
 <title>Home - studyer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 {% endblock %}
 
 {% block navbar %} 
@@ -17,9 +18,9 @@
 
 {% block body %}
     {% if current_user.is_authenticated %}
-        <ul class="list-group" style="width:300px;">
+        <ul id="sets" class="list-group" style="width:300px;">
             {% for setId in json.loads(current_user.sets) %}
-            <a href="/sets/{{setId}}" class="list-group-item list-group-item-action">{{Sets.query.get(setId).name}}</a>
+            <a href="/sets/{{setId}}" class="list-group-item list-group-item-action bg-dark">{{Sets.query.get(setId).name}}</a>
             {% endfor %}
           </ul>
         {% else %}

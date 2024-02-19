@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='write.css') }}">
 <title>Write - studyer</title>
 {% endblock %}
 
@@ -16,18 +17,12 @@
 {% endblock %}
 
 {% block body %}
-    <div id="qblock" style="text-align:center;height:300px;margin:auto;width:75%;border:none;border-radius:25px;padding:10px;background-color:#f8fcfc;">
+    <div id="qblock">
         <h2 id="question">{{question[0]}}</h2>
         <form id="qform" action="#" method="post">
-            <input id="answer" style=
-            "border:none;
-            margin:10px;
-            width:90%;
-            border-radius:10px;
-            background: #f2f2f2;
-            padding: 15px;
-            " 
+            <input id="answer" 
             type="text" placeholder="Enter your answer here and press enter"></input>
+            <br>
             <button id="subbutton" type="button" class="btn btn-primary" style="padding:15px" onclick="checkAnswer()">Check Answer</button>
         </form>
     </div>
@@ -55,12 +50,12 @@
         console.log("clicked")
 
         if ("{{question[1]}}" === document.getElementById("answer").value) {
-            document.getElementById("qblock").style.backgroundColor = "#c4e0b8"
+            document.getElementById("qblock").style.backgroundColor = "#032e1b"
             document.getElementById("subbutton").onclick = function() {submitAndEnd(true)}
             document.getElementById("override").innerHTML = "I was incorrect"
            document.getElementById("override").onclick = function() {submitAndEnd(false)}
         } else {
-            document.getElementById("qblock").style.backgroundColor = "#fccfcf"
+            document.getElementById("qblock").style.backgroundColor = "#260300"
             document.getElementById("subbutton").onclick = function() {submitAndEnd(false)}
             document.getElementById("override").innerHTML = "I was correct"
             document.getElementById("override").onclick = function() {submitAndEnd(true)}

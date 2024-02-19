@@ -1,0 +1,19 @@
+#qblock {
+    text-align:center;
+    height:300px;
+    margin:auto;
+    width:75%;
+    border:none;
+    border-radius:25px;
+    padding:10px;
+    background-color:#353944;
+}
+
+#answer {
+    border:none;
+    margin:10px;
+    width:90%;
+    border-radius:10px;
+    background: #f2f2f2;
+    padding: 15px;
+}

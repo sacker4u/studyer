@@ -3,7 +3,6 @@ input {
     margin:10px;
     width:280px;
     border-radius:10px;
-    background: #f2f2f2;
     padding: 15px;
 }
 
@@ -11,4 +10,18 @@ input {
     margin: 15px;
     height: 50px;
     width: 95%;
+}
+
+.qaentry { 
+    border-style: solid;
+    border-radius: 25px;
+    
+    border-width: 1px;
+    background-color: #3b4252;
+    padding: 20px;
+    margin: 20px;
+    height: 100px;
+    width: 600px;
+    display: flex;
+    justify-content: center;
 }

@@ -1,10 +1,26 @@
 button {
     border: none;
-    margin: 5px;
+    background-color: #92c0d0 !important;
+    border: none !important;
+    margin: 10px;
 }
 
 #navbar {
-    background-color: #ffffff;
+    background-color: #2b2f38;
     border: none;
     margin-bottom: 0px;
+}
+
+
+body {
+    background-color: #2b2f38;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color:#949aaa !important;
+}
+
+input {
+    background-color: #4c566a;
+    color: #949aaa !important;
 }
