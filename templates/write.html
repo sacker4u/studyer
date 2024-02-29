@@ -17,15 +17,19 @@
 {% endblock %}
 
 {% block body %}
+    {% if not question == None %}
     <div id="qblock">
         <h2 id="question">{{question[0]}}</h2>
         <form id="qform" action="#" method="post">
-            <input id="answer" 
+            <input id="answer" name="answer" 
             type="text" placeholder="Enter your answer here and press enter"></input>
             <br>
             <button id="subbutton" type="button" class="btn btn-primary" style="padding:15px" onclick="checkAnswer()">Check Answer</button>
         </form>
     </div>
+    {% else %}
+        <h1>You have completed this set! Great Job! :)</h1>
+    {% endif %}
 {% endblock %}
 
 {% block javascript %}
@@ -78,9 +82,9 @@
     function submitAndEnd(isCorrect) {
         console.log("submitted")
         if (isCorrect) {
-            document.getElementById("answer").value = "{{set.id}}" + "/" + "{{question[0]}}" + "/" + "t"
+            document.getElementById("answer").value = "{{question[0]}}" + "t"
         } else {
-            document.getElementById("answer").value = "{{set.id}}" + "/" + "{{question[0]}}" + "/" + "f"
+            document.getElementById("answer").value = "{{question[0]}}" + "f"
         }
         document.getElementById("qform").submit();
     }
