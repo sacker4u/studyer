@@ -118,6 +118,21 @@ def newset():
     else: 
         return redirect(url_for("login"))
 
+@app.route("/sets/<int:id>/edit/", methods=["GET", "POST"])
+def edit(id):
+    try:
+        if request.method == "GET":
+            set = Sets.query.get(id)
+            return render_template("edit.html", set=set)
+        elif request.method == "POST":
+            pass
+
+
+    except:
+        return "err"
+
+
+
 def getQuestionToStudy(set:Sets): # WORK ON ALGORITHM LATER TO PRIORITZE 0 OVER 1 AND TO INCLUDE 2 IF NO OTHER
     loadedSet = json.loads(set.set)
     
@@ -129,13 +144,6 @@ def getQuestionToStudy(set:Sets): # WORK ON ALGORITHM LATER TO PRIORITZE 0 OVER 
             return question
 
     return None
-
-
-
-    while True:
-        question = random.choice(json.loads(set.set))
-        if question[2] == 0 or question[2] == 1: 
-            return question;
     
 
 
@@ -155,31 +163,31 @@ def write(id):
 
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
-    #try:
-    set = Sets.query.get(id)
-    
-    if request.method == "GET":
-        return render_template("write.html", question=getQuestionToStudy(set));
-    elif request.method == "POST":
-        data=request.form.get("answer");
-        # data[0] is question, data[1] is either "t" or "f" and is if they got it correct
-        setQuestions = json.loads(set.set)
-
-        for question in setQuestions:
-            if question[0] == data[0:-1]:
-                if data[-1] == "t":
-                    if question[2] == 0 or question[2] == 1:
-                        question[2] += 1
-                else:
-                    if question[2] == 1 or question[2] == 2:
-                        question[2] -= 1
+    try:
+        set = Sets.query.get(id)
         
-                set.set = json.dumps(setQuestions); 
-                db.session.commit();
-                
-                return redirect(f"/sets/{id}/write");
-    #except:
-        #return 'ERR'
+        if request.method == "GET":
+            return render_template("write.html", question=getQuestionToStudy(set));
+        elif request.method == "POST":
+            data=request.form.get("answer");
+            # data[0] is question, data[1] is either "t" or "f" and is if they got it correct
+            setQuestions = json.loads(set.set)
+
+            for question in setQuestions:
+                if question[0] == data[0:-1]:
+                    if data[-1] == "t":
+                        if question[2] == 0 or question[2] == 1:
+                            question[2] += 1
+                    else:
+                        if question[2] == 1 or question[2] == 2:
+                            question[2] -= 1
+            
+                    set.set = json.dumps(setQuestions); 
+                    db.session.commit();
+                    
+                    return redirect(f"/sets/{id}/write");
+    except:
+        return 'ERR'
        
 
 if __name__ == "__main__":

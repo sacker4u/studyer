@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block javascript %}
+    <script>
+    var i = 0;
+    // console.log('{{set.set|tojson}}')
+    let setQs = JSON.parse({{ set.set|tojson }})
+    console.log(JSON.parse({{ set.set | tojson }}))
+
+    for (let i = 0; i < setQs.length; i++) {
+        addnew(setQs[i][0], setQs[i][1]);
+    }
+
+    function addnew(ques, ans) {
+        if (arguments.length === 0) {
+            ques = ""
+            ans = ""
+        }
+
+        var list = document.getElementById("qlist");
+        var toAdd = document.createElement("li");
+
+        console.log(ques)
+        
+        
+        
+        toAdd.className = "qaentry"
+        toAdd.innerHTML = `<p>${++i}</p>
+        <input type="text" name="q${i}" id="q${i}" value="${ques}" placeholder="question"></input>
+        <input type="text" name="a${i}" id="a${i}" value="${ans}" placeholder="answer"></input>`
+        list.appendChild(toAdd);
+    }
+    </script>
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='createset.css') }}">
+    <title>Create New Set - studyer</title>
+{% endblock %}
+
+{% block navbar %}
+    {% if current_user.is_authenticated %}
+        <li><a href="/">{{current_user.username}}</a></li>
+
+        
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if current_user.is_authenticated %}
+        <form id="editset" action="#" method="post">
+            <button onclick="addnew();" id="addbutton" class="btn btn-primary rounded-circle" type="button" style="width:50px;height:50px;">+</button>
+            <button id="submit" type="submit" class="btn btn-primary" style="height:50px">Save Edited Set</button>
+            <input type="text" name="title" id="title" placeholder="title" value="{{set.name}}"></input>
+                <div id="containerqlist">
+                    <ul id="qlist">
+                </ul>
+            </div>
+        </form>
+    {% else %}
+        <h1><a href="/">You are not logged in. Click here to go back to home.</a></h1>
+    {% endif %}
+{% endblock %}

@@ -40,7 +40,16 @@
             checkAnswer();
         }
     })
+    function areSame() {
+        fixedans = document.getElementById("answer").value.toLowerCase().trim()
+        fixedtrueans = "{{question[1]}}".toLowerCase().trim()
 
+        if (fixedans === fixedtrueans) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     function checkAnswer() {
 
         document.getElementById("subbutton").innerHTML = "Next"
@@ -53,7 +62,7 @@
         document.getElementById("qblock").appendChild(button)
         console.log("clicked")
 
-        if ("{{question[1]}}" === document.getElementById("answer").value) {
+        if (areSame()) {
             document.getElementById("qblock").style.backgroundColor = "#032e1b"
             document.getElementById("subbutton").onclick = function() {submitAndEnd(true)}
             document.getElementById("override").innerHTML = "I was incorrect"

@@ -7,32 +7,42 @@
 
     
 
-    // RESSOLVE PROBLEM OF CREATING NEW SET LATER, WHEN CLICKING SUBMIT, ALSO WIPE DATA
-    // LOAD THROUGH ARRAY HERE, AT START OF PAGE
-
-    // when come back: do so it saves to array every time addnew is called, then loads at start of page
+   
 
     function addnew() {
         var list = document.getElementById("qlist");
         var toAdd = document.createElement("li");
         
-        
         toAdd.className = "qaentry"
-        /*toAdd.style.borderStyle="solid";
-        toAdd.style.borderRadius = "25px";
-        toAdd.style.borderColor = "#9897A9";
-        toAdd.style.borderWidth="1px";
-        toAdd.style.background="#f8fcfc";
-        toAdd.style.padding = "20px";
-        toAdd.style.margin = "20px";
-        toAdd.style.height="100px";
-        toAdd.style.width="600px";
-        toAdd.style.display="flex";
-        toAdd.style.justifyContent="center";*/
-        toAdd.innerHTML = `<p>${++i}</p>
-        <input type="text" name="q${i}" id="q${i}" placeholder="question"></input>
-        <input type="text" name="a${i}" id="a${i}" placeholder="answer"></input>`
+        toAdd.id = `block${++i}`;
+        toAdd.innerHTML = `<p class="num">${i}</p>
+        <input type="text" class="q" name="q${i}" id="q${i}" placeholder="question"></input>
+        <input type="text" class="a" name="a${i}" id="a${i}" placeholder="answer"></input>
+        <button type="button" class="deletebutton" onclick="deleteblock(${i})">🗑️</button>`
         list.appendChild(toAdd);
+    }
+
+    function deleteblock(i) {
+        var listBlock = document.getElementById("qlist")
+        var toRemove = document.getElementById(`block${i}`)
+        listBlock.removeChild(toRemove)
+        
+        nodenum = 1;
+        listBlock.childNodes.forEach((qblock) => {
+            qblock.id=`block${nodenum}`
+            let p = qblock.querySelectorAll(".num")[0]
+            p.innerHTML=`${nodenum}`
+            let q = qblock.querySelectorAll(".q")[0]
+            q.id = `q${nodenum}`
+            q.name=`q${nodenum}`
+            let a = qblock.querySelectorAll(".a")[0]
+            a.id = `q${nodenum}`
+            a.name=`q${nodenum}`
+            let delbut = qblock.querySelectorAll(".deletebutton")[0]
+            delbut.onclick = function() {deleteblock(nodenum)}
+        
+            nodenum++;
+        })
     }
     </script>
 {% endblock %}
