@@ -1,0 +1,24 @@
+ul {
+    background-color: #2b2f38;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    border-bottom: 1px solid #4c566a;
+}
+
+ul li a {
+    display: block;
+    padding: 10px 15px;
+    color: #949aaa !important;
+    text-decoration: none;
+    background-color: #2b2f38;
+    transition: background-color 0.3s;
+}
+
+ul li a:hover {
+    background-color: #3d4352;
+    color: #ffffff !important;
+}
