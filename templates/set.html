@@ -14,17 +14,28 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{set.name}}</h1>
-    <a href="/sets/{{set.id}}/write">
-        <button type="button" class="btn btn-primary btn-lg">🖊️ Write</button>
-    </a>
-    <a href="/sets/{{set.id}}/mcq">
-        <button type="button" class="btn btn-primary btn-lg">🖱️ Multiple Choice Practice</button>
-    </a>
-    <a href="/sets/{{set.id}}/test">
-        <button type="button" class="btn btn-primary btn-lg">✅ Test</button>
-    </a>
+    <h1 style = "text-align: center;">{{set.name}}</h1>
+        <div style = "width:900px;margin-left:calc(50vw - 450px);"> 
+            <div style = "width:700px;height:450px;background-color: black !important;border-radius: 25px;margin-bottom:10px;margin-left:100px;">
+
+            </div>
+            <div style="">
+                <a href="/sets/{{set.id}}/write">
+                    <button type="button" style = "width:200px; height:200px;background-color:#54a8bc !important;" class="btn btn-primary btn-lg">🖊️ Write</button>
+                </a>
+                <a href="/sets/{{set.id}}/mcq">
+                    <button type="button" style = "width:200px; height:200px;background-color:#8cbcbc !important;" class="btn btn-primary btn-lg">🖱️ Multiple Choice</button>
+                </a>
+                <a href="/sets/{{set.id}}/test">
+                    <button type="button" style = "width:200px; height:200px;;background-color:#4c6c8c !important;" class="btn btn-primary btn-lg">✅ Test</button>
+                </a>
+                <a href="/sets/{{set.id}}/flashcards">
+                    <button type="button" style = "width:200px; height:200px;;background-color:#6484ac !important;" class="btn btn-primary btn-lg">✏️ Flashcards</button>
+                </a>
+            </div>
+        </div>    
     <a href="/sets/{{set.id}}/edit">
         <button type="button" class="btn btn-primary btn-lg">✏️ Edit</button>
     </a>
+    
 {% endblock %}
